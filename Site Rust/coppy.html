@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Mobile</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: black;
+            color: white;
+            text-align: center;
+            scroll-behavior: smooth;
+        }
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 3;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        .navbar a:hover {
+            color: #ff4500;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff4500;
+        }
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+        .btn {
+            padding: 15px 30px;
+            background: #ff4500;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            border-radius: 5px;
+            transition: 0.3s;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .btn:hover {
+            background: #cc3700;
+        }
+        .section {
+            padding: 100px 20px;
+            text-align: center;
+            background: #222;
+        }
+        .section h2 {
+            font-size: 36px;
+        }
+        .section p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 10px auto;
+            color: #ccc;
+        }
+        .gallery {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .gallery img {
+            width: 300px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay loop muted>
+        <source src="https://files.facepunch.com/paddy/20210324/rust_site2021_hero_v002.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+
+    <div class="navbar">
+        <div class="logo">Rust Mobile</div>
+        <div>
+            <a href="#about">About</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#download">Download</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>Rust Mobile</h1>
+        <a href="#download" class="btn">Download Now</a>
+    </div>
+
+    <section id="about" class="section">
+        <h2>What is Rust Mobile?</h2>
+        <p>
+            Rust Mobile is an adaptation of the popular survival game Rust for mobile devices.
+            Gather resources, build your base, and survive against other players in an open-world
+            multiplayer experience!
+        </p>
+    </section>
+
+    <section id="gallery" class="section">
+        <h2>Game Gallery</h2>
+        <div class="gallery">
+            <img src="last ned.jpg" alt="Rust Mobile Beta 1">
+            <img src="piska.jpg" alt="Rust Mobile Beta 2">
+            <img src="last ned (2).jpg" alt="Rust Mobile Beta 3">
+        </div>
+    </section>
+
+    <section id="download" class="section">
+        <h2>Download Rust Mobile</h2>
+        <p>Get Rust Mobile now and start surviving in the wild!</p>
+        <a href="https://parad1st.github.io/Screamer/" class="btn" download>Download APK</a>
+    </section>
+
+</body>
+</html>
