@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GAME OVER</title>
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:black;
+    overflow:hidden;
+    font-family:'Impact', sans-serif;
+}
+
+h1{
+    font-size:100px;
+    color:red;
+    text-shadow: 0 0 20px #800, 0 0 40px #400, 0 0 60px #200;
+    animation: blink 1s infinite, shake 0.1s infinite;
+}
+
+@keyframes blink{
+    0%,50%,100%{opacity:1;}
+    25%,75%{opacity:0;}
+}
+
+@keyframes shake{
+    0%{transform:translate(0,0);}
+    25%{transform:translate(-5px,5px);}
+    50%{transform:translate(5px,-5px);}
+    75%{transform:translate(-5px,-5px);}
+    100%{transform:translate(5px,5px);}
+}
+
+button{
+    padding:20px 40px;
+    background:#800000;
+    color:white;
+    font-weight:bold;
+    border:none;
+    border-radius:10px;
+    margin-top:50px;
+    cursor:pointer;
+    box-shadow: 0 0 20px #400000;
+}
+button:hover{
+    box-shadow:0 0 40px #400000 inset,0 0 30px #800000;
+}
+</style>
+</head>
+<body>
+<div>
+<h1>GAME OVER</h1>
+<button onclick="revive()">REVIVE</button>
+</div>
+
+<!-- Skummel lyd -->
+<audio autoplay>
+<source src="https://www.soundjay.com/horror/sounds/horror-ambience-01.mp3">
+</audio>
+
+<script>
+function revive(){
+    window.location.href="index.html";
+}
+</script>
+</body>
+</html>

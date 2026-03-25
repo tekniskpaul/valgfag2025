@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<style>
+body {
+    margin:0;
+    font-family: 'Arial', sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
+    overflow:hidden;
+}
+
+body::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle, #00ffff33, transparent);
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+.login-box {
+    position:relative;
+    background: rgba(0,0,0,0.7);
+    padding:40px;
+    border-radius:20px;
+    box-shadow: 0 0 20px #0ff, 0 0 40px #0ff inset;
+    text-align:center;
+}
+
+input{
+    padding:10px;
+    margin:10px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    width:200px;
+    box-shadow: 0 0 10px #0ff;
+    background: rgba(0,0,0,0.5);
+    color:white;
+}
+
+button{
+    padding:10px 30px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    background:#0ff;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 0 20px #0ff;
+}
+button:hover{
+    box-shadow: 0 0 40px #0ff, 0 0 60px #0ff inset;
+}
+
+</style>
+</head>
+<body>
+<div class="login-box">
+    <h1 style="color:#0ff; text-shadow:0 0 20px #0ff;">Futuristic Login</h1>
+    <input id="user" placeholder="Username"><br>
+    <input id="pass" type="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+</div>
+
+<audio autoplay loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<script>
+function login(){
+    let u=document.getElementById("user").value;
+    let p=document.getElementById("pass").value;
+    if(u==="Raie10XPeak" && p==="Jesuslever"){
+        window.location.href="main.html";
+    } else {
+        window.location.href="gameover.html";
+    }
+}
+</script>
+</body>
+</html>

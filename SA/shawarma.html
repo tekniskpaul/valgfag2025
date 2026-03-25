@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CloudMoon 5000 Games</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(-45deg, #020617, #1e3a8a, #450a0a, #0f172a);
+  background-size: 400% 400%;
+  animation: bg 10s ease infinite;
+  color: white;
+}
+
+@keyframes bg {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+.header {
+  text-align: center;
+  font-size: 32px;
+  padding: 20px;
+  color: #38bdf8;
+  text-shadow: 0 0 20px #38bdf8;
+}
+
+input {
+  width: 60%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 20px;
+}
+
+/* GAME CARD */
+.game {
+  background: #0f172a;
+  border-radius: 15px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 0 10px #1e3a8a;
+  transition: 0.2s;
+}
+
+.game:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 25px #38bdf8;
+}
+
+.game img {
+  width: 100%;
+  height: 80px;
+  object-fit: contain;
+  background: #020617;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.button {
+  margin-top: 6px;
+  padding: 6px;
+  border: none;
+  border-radius: 10px;
+  background: #38bdf8;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">🌙 CloudMoon 5000 Game Engine</div>
+
+<div style="text-align:center;">
+  <input id="search" placeholder="Search 5000 games..." onkeyup="filter()">
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+/* REAL ICONS */
+const icons = {
+  "Roblox":"https://upload.wikimedia.org/wikipedia/commons/4/48/Roblox_Logo_2021.png",
+  "Fortnite":"https://upload.wikimedia.org/wikipedia/commons/0/09/Fortnite_%282018%29_logo.svg",
+  "CS2":"https://upload.wikimedia.org/wikipedia/en/7/7e/Counter-Strike_2_cover_art.jpg",
+  "Snow Rider":"https://upload.wikimedia.org/wikipedia/commons/3/3f/Snow-covered_mountain_landscape.jpg",
+  "YouTube":"https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+};
+
+let baseGames = [
+"Roblox","Fortnite","Minecraft","CS2","Valorant","GTA V","Apex Legends",
+"Snow Rider","YouTube","TikTok","FIFA","Rocket League","Rust","Terraria"
+];
+
+/* GENERATE 5000 GAMES */
+function generate5000(){
+  let arr = [...baseGames];
+
+  for(let i=0;i<4986;i++){
+    arr.push("Cloud Game " + (i+1));
+  }
+
+  return arr;
+}
+
+function getImage(name){
+  return icons[name] || "https://picsum.photos/200/120?random=" + name;
+}
+
+function load(){
+  let grid = document.getElementById("grid");
+  let games = generate5000();
+
+  for(let g of games){
+    let div = document.createElement("div");
+    div.className = "game";
+
+    let url = "https://www.google.com/search?q=" + encodeURIComponent(g);
+
+    div.innerHTML = `
+      <img src="${getImage(g)}">
+      <h4>${g}</h4>
+      <button class="button" onclick="openGame('${url}')">Play</button>
+    `;
+
+    grid.appendChild(div);
+  }
+}
+
+function openGame(url){
+  window.open(url,"_blank");
+}
+
+/* SEARCH */
+function filter(){
+  let input = document.getElementById("search").value.toLowerCase();
+  let cards = document.getElementsByClassName("game");
+
+  for(let c of cards){
+    c.style.display = c.innerText.toLowerCase().includes(input) ? "block" : "none";
+  }
+}
+
+load();
+
+</script>
+
+</body>
+</html>

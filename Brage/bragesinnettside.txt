@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<title>Brage Steam Launcher</title>
+
+<style>
+body {
+    margin:0;
+    background:#0e141b;
+    font-family: Arial;
+    color:white;
+}
+
+/* TOP BAR */
+.topbar {
+    background:#171d25;
+    padding:10px;
+    font-weight:bold;
+    box-shadow:0 0 10px black;
+}
+
+/* MAIN */
+.container {
+    display:flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width:200px;
+    background:#1b2838;
+    height:100vh;
+    padding:10px;
+}
+
+.sidebar h3 {
+    color:#66c0f4;
+}
+
+/* CONTENT */
+.content {
+    flex:1;
+    padding:20px;
+}
+
+/* SEARCH */
+input {
+    width:300px;
+    padding:8px;
+    border:none;
+    border-radius:5px;
+}
+
+/* GRID */
+.grid {
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,150px);
+    gap:15px;
+}
+
+.game {
+    background:#16202d;
+    border-radius:10px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.game:hover {
+    transform:scale(1.05);
+    box-shadow:0 0 15px #66c0f4;
+}
+
+.game img {
+    width:100%;
+    height:80px;
+    object-fit:cover;
+}
+
+.game p {
+    font-size:12px;
+    padding:5px;
+}
+
+/* PANEL */
+.panel {
+    margin-top:20px;
+    background:#1b2838;
+    padding:20px;
+    border-radius:10px;
+}
+
+.play-btn {
+    padding:10px 20px;
+    background:#5cdb5c;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.play-btn:hover {
+    background:#4bc94b;
+}
+
+#status {
+    margin-top:10px;
+    color:#66c0f4;
+}
+
+/* LOADING */
+#loading {
+    display:none;
+    margin-top:10px;
+}
+
+.bar {
+    width:300px;
+    height:20px;
+    background:#333;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress {
+    height:100%;
+    width:0%;
+    background:#66c0f4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">🎮 Brage Launcher</div>
+
+<div class="container">
+
+<div class="sidebar">
+    <h3>Library</h3>
+    <p>Games</p>
+</div>
+
+<div class="content">
+
+<input id="search" placeholder="Search game...">
+
+<div id="suggestions"></div>
+
+<div class="grid" id="grid"></div>
+
+<div class="panel">
+    <h2 id="selected">No game selected</h2>
+    <input id="password" placeholder="password (if needed)">
+    <br><br>
+    <button class="play-btn" onclick="launch()">▶ PLAY</button>
+    <p id="status">READY</p>
+
+    <div id="loading">
+        <div class="bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <p id="percent">0%</p>
+    </div>
+</div>
+
+</div>
+</div>
+
+<script>
+const games = {
+    cs2:{name:"CS2", url:"https://store.steampowered.com/app/730/CounterStrike_2/", pass:true, img:"https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg"},
+    cod:{name:"Call of Duty", url:"https://www.callofduty.com/", pass:true, img:"https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/body/mwiii/MWIII-REVEAL-FULL-TOUT.jpg"},
+    tarkov:{name:"Tarkov", url:"https://www.escapefromtarkov.com/", pass:true, img:"https://www.escapefromtarkov.com/uploads/news/escape-from-tarkov.jpg"},
+    shredders:{name:"Shredders", url:"https://store.steampowered.com/app/1874170/Shredders/", pass:true, img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1874170/header.jpg"},
+
+    fortnite:{name:"Fortnite", url:"https://www.fortnite.com/", pass:false, img:"https://cdn2.unrealengine.com/fortnite.jpg"},
+    minecraft:{name:"Minecraft", url:"https://www.minecraft.net/", pass:false, img:"https://www.minecraft.net/content/dam/minecraft.jpg"},
+    gta:{name:"GTA V", url:"https://www.rockstargames.com/gta-v", pass:false, img:"https://www.rockstargames.com/V/img/global/share.jpg"},
+    valorant:{name:"Valorant", url:"https://playvalorant.com/", pass:false, img:"https://playvalorant.com/assets/hero.jpg"},
+    apex:{name:"Apex", url:"https://www.ea.com/games/apex-legends", pass:false, img:"https://media.contentapi.ea.com/content/dam/apex.jpg"}
+};
+
+let current=null;
+
+// BUILD GRID
+const grid=document.getElementById("grid");
+Object.keys(games).forEach(key=>{
+    let g=games[key];
+
+    let div=document.createElement("div");
+    div.className="game";
+    div.innerHTML=`<img src="${g.img}"><p>${g.name}</p>`;
+    div.onclick=()=>selectGame(key);
+
+    grid.appendChild(div);
+});
+
+// SELECT
+function selectGame(key){
+    current=key;
+    document.getElementById("selected").innerText=games[key].name;
+    document.getElementById("status").innerText="READY: "+key;
+}
+
+// SEARCH
+search.addEventListener("input",()=>{
+    let val=search.value.toLowerCase();
+    let s=document.getElementById("suggestions");
+    s.innerHTML="";
+
+    Object.keys(games).filter(g=>g.startsWith(val)).forEach(g=>{
+        let d=document.createElement("div");
+        d.innerText=g;
+        d.onclick=()=>{selectGame(g); s.innerHTML="";}
+        s.appendChild(d);
+    });
+});
+
+// ENTER
+document.addEventListener("keydown",e=>{
+    if(e.key==="Enter") launch();
+});
+
+// LAUNCH
+function launch(){
+    if(!current){
+        status.innerText="❌ no game selected";
+        return;
+    }
+
+    let p=password.value.toLowerCase();
+
+    if(games[current].pass && p!==current){
+        status.innerText="❌ wrong password";
+        return;
+    }
+
+    document.getElementById("loading").style.display="block";
+
+    let w=0;
+    let int=setInterval(()=>{
+        w++;
+        progress.style.width=w+"%";
+        percent.innerText=w+"%";
+
+        if(w>=100){
+            clearInterval(int);
+            window.location.href=games[current].url;
+        }
+    },20);
+}
+</script>
+
+</body>
+</html>

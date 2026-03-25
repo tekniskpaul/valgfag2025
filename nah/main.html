@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Main Page</title>
+<style>
+body{
+    margin:0;
+    font-family:'Arial';
+    color:white;
+    text-align:center;
+    background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
+    overflow:hidden;
+}
+
+body::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:200%;
+    background: repeating-linear-gradient(45deg, rgba(0,255,255,0.2) 0 2px, transparent 2px 10px);
+    animation: move 10s linear infinite;
+}
+
+@keyframes move{
+    0%{transform:translate(0,0);}
+    100%{transform:translate(-50%, -50%);}
+}
+
+h1{
+    color:#0ff;
+    text-shadow:0 0 20px #0ff,0 0 40px #0ff;
+}
+
+h2{
+    color:#0ff;
+    text-shadow:0 0 10px #0ff;
+}
+
+p{
+    max-width:700px;
+    margin:0 auto 20px auto;
+    font-size:18px;
+    line-height:1.6;
+}
+
+button{
+    margin:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#0ff;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 0 20px #0ff;
+}
+button:hover{
+    box-shadow:0 0 40px #0ff inset,0 0 60px #0ff;
+}
+</style>
+</head>
+<body>
+
+<h1>Welcome Gamer</h1>
+
+<h2>FIFA vs eFootball</h2>
+<p>
+FIFA has been the ultimate football simulation for years. From realistic ball physics to licensed teams and leagues, it offers an immersive experience that eFootball simply cannot match. With consistent updates, exciting career modes, and thrilling online matches, FIFA captures the heart of football fans. The strategy, tactics, and authentic gameplay make every match engaging and enjoyable. Whether you play casually or competitively, FIFA gives you the feeling of controlling the game like a real football manager.
+</p>
+<button onclick="win()">FIFA</button>
+<button onclick="lose()">eFootball</button>
+<p>
+FIFA 23 was one of the most polished entries in the series, offering smooth gameplay, realistic physics, and new skill moves. The game allowed players to fully control their teams in career mode, online matches, and ultimate team. The balanced mechanics and enhanced AI provided a challenging yet fun experience. With updated rosters, improved ball control, and visually stunning graphics, FIFA 23 remains a fan favorite. It successfully combined accessibility for beginners with depth for competitive players, making it a true peak of the FIFA series.
+</p>
+<button onclick="win()">FIFA 23</button>
+<button onclick="win()">FC 26</button>
+
+<audio autoplay loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+</audio>
+
+<script>
+function win(){
+    // naviger direkte til hub.html
+    window.location.href="hub.html";
+}
+
+function lose(){
+    // naviger direkte til gameover.html
+    window.location.href="gameover.html";
+}
+</script>
+
+</body>
+</html>

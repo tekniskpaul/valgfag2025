@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CloudMoon - World Edition</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: radial-gradient(circle at top, #0f172a, #020617, #000);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* 🌌 animated glow */
+.glow {
+  position: fixed;
+  width: 700px;
+  height: 700px;
+  background: #38bdf8;
+  filter: blur(200px);
+  opacity: 0.12;
+  border-radius: 50%;
+  animation: float 8s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes float {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(120px,60px); }
+  100% { transform: translate(0,0); }
+}
+
+/* LOGIN */
+#login {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  padding: 12px;
+  margin: 6px;
+  border-radius: 10px;
+  border: none;
+  width: 240px;
+  outline: none;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #38bdf8;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  font-size: 34px;
+  padding: 20px;
+  color: #38bdf8;
+  text-shadow: 0 0 25px #38bdf8;
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+input[type="text"] {
+  width: 250px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  padding: 20px;
+}
+
+.game {
+  background: rgba(15, 23, 42, 0.9);
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+}
+
+.game:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 30px #38bdf8;
+}
+
+.heart {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.active {
+  color: red;
+}
+
+/* MOBILE */
+@media (max-width: 800px) {
+  .grid { grid-template-columns: 2fr 2fr; }
+}
+@media (max-width: 500px) {
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+
+<!-- LOGIN -->
+<div id="login">
+  <h1>🌙 CloudMoon World</h1>
+
+  <input type="email" id="email" placeholder="email">
+  <input type="password" id="pass" placeholder="password">
+
+  <button onclick="login()">ENTER</button>
+
+  <div id="msg"></div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;">
+
+  <div class="header">🌙 CloudMoon WORLD</div>
+
+  <div class="topbar">
+    <input type="text" id="search" placeholder="Search games..." oninput="render()">
+    <div id="xp">XP: 0</div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+</div>
+
+<script>
+
+const PASSWORD = "cloudmoon";
+
+let userXP = 0;
+let favorites = [];
+
+const games = [
+  ["Roblox","https://www.roblox.com"],
+  ["Fortnite","https://www.fortnite.com"],
+  ["Minecraft","https://www.minecraft.net"],
+  ["CS2","https://store.steampowered.com/app/730"],
+  ["Valorant","https://playvalorant.com"],
+  ["Rocket League","https://www.rocketleague.com"],
+  ["YouTube","https://www.youtube.com"]
+];
+
+/* LOGIN */
+function login() {
+  let email = document.getElementById("email").value.trim();
+  let pass = document.getElementById("pass").value.trim();
+  let msg = document.getElementById("msg");
+
+  msg.innerText = "verifying...";
+
+  setTimeout(() => {
+
+    if (!email.includes("@")) {
+      msg.innerText = "bro that email is fake 💀";
+      return;
+    }
+
+    if (pass.toLowerCase() === PASSWORD) {
+
+      localStorage.setItem("logged", "yes");
+      localStorage.setItem("email", email);
+
+      document.getElementById("login").style.display = "none";
+      document.getElementById("app").style.display = "block";
+
+      render();
+
+    } else {
+      msg.innerText = "yo bro what u tryin' do?";
+    }
+
+  }, 800);
+}
+
+/* AUTO LOGIN */
+if (localStorage.getItem("logged") === "yes") {
+  document.getElementById("login").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  render();
+}
+
+/* RENDER */
+function render() {
+  let grid = document.getElementById("grid");
+  let search = document.getElementById("search")?.value?.toLowerCase() || "";
+
+  grid.innerHTML = "";
+
+  games
+    .filter(g => g[0].toLowerCase().includes(search))
+    .forEach(g => {
+
+      let isFav = favorites.includes(g[0]);
+
+      grid.innerHTML += `
+        <div class="game" onclick="openGame('${g[1]}')">
+          <div class="heart ${isFav ? 'active' : ''}" onclick="toggleFav(event,'${g[0]}')">❤️</div>
+          🎮 ${g[0]}
+        </div>
+      `;
+    });
+
+  document.getElementById("xp").innerText = "XP: " + userXP;
+}
+
+/* FAVORITES */
+function toggleFav(e,name){
+  e.stopPropagation();
+
+  if(favorites.includes(name)){
+    favorites = favorites.filter(f => f !== name);
+  } else {
+    favorites.push(name);
+    userXP += 10;
+  }
+
+  render();
+}
+
+/* OPEN GAME */
+function openGame(url){
+  window.open(url,"_blank");
+}
+
+</script>
+
+</body>
+</html>
